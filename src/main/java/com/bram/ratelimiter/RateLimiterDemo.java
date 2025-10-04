@@ -47,21 +47,23 @@ public class RateLimiterDemo {
     // in the current window. The weighted previous count is 0.
 
     // Wait for 31 seconds more (total time passed is ~61 seconds, forcing a window shift)
-    System.out.println("\n--- Waiting 32 seconds (Window Shift) ---");
-    Thread.sleep(32000);
+    System.out.println("\n--- Waiting 31 seconds (Window Shift) ---");
+    Thread.sleep(31000);
 
     System.out.println("\n--- Test 3: Requests after window shift ---");
     // After the shift:
     // Previous Count (P) is now 10 (from Test 1).
     // Current Count (C) is 0 (new bucket).
     // Try to make 10 requests.
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 11; i++) {
       if (limiter.allowRequest(userA)) {
         requestsAllowed++;
         System.out.println("Request " + (i + 1) + ": ALLOWED");
       } else {
         System.out.println("Request " + (i + 1) + ": DENIED (Rate Limited)");
       }
+      // Wait for 3 seconds to let the window slide and free up capacity.
+      Thread.sleep(3000);
     }
     // Result: All 10 are allowed as the previous window's requests have expired.
   }
