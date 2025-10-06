@@ -2,8 +2,11 @@ package com.bram.ratelimiter;
 
 public class RateLimiterDemo {
   public static void main(String[] args) throws InterruptedException {
+
+    TimeSource timer = new SystemTimeSource();
+
     // Limit: 10 requests per minute
-    SlidingWindowRateLimiter limiter = new SlidingWindowRateLimiter(10, 1);
+    SlidingWindowRateLimiter limiter = new SlidingWindowRateLimiter(10, 1, timer);
     String userA = "user_456";
     int requestsAllowed = 0;
 
